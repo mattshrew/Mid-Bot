@@ -3,4 +3,4 @@ motor
 pymongo[srv]
 disnake-jishaku
 dnspython
-dotenv
+python-dotenv
