@@ -37,7 +37,9 @@ class Events(commands.Cog):
             return await ctx.send(embed=disnake.Embed(
                 title="Command not found!",
                 description=f"<:alert:1038471201938489424> The command `{command}` doesn't exist!",
-                colour=disnake.Colour.red()).set_footer(text="", icon_url=ctx.author.display_avatar))
+                colour=disnake.Colour.red()
+                )
+            )
 
         elif isinstance(error, commands.MemberNotFound):
             await ctx.message.add_reaction('❌')
@@ -46,7 +48,10 @@ class Events(commands.Cog):
             return await ctx.send(embed=disnake.Embed(
                 title="Member not found!",
                 description=f"<:alert:1038471201938489424> Could not find member: `{member}`",
-                colour=disnake.Colour.red()).set_footer(text="", icon_url=ctx.author.display_avatar))
+                colour=disnake.Colour.red()
+                )
+            )
+    
         elif isinstance(error, commands.MissingRequiredArgument):
             argument = str(error).split()[0]
             await ctx.message.add_reaction('❌')
@@ -54,7 +59,9 @@ class Events(commands.Cog):
             return await ctx.send(embed=disnake.Embed(
                 title="Missing Argument!",
                 description=f"<:alert:1038471201938489424> Please specify `{argument}`\n\n**Proper Usage:**\n```{ctx.prefix}{ctx.command.qualified_name} {ctx.command.signature}```",
-                colour=disnake.Colour.red()).set_footer(text="", icon_url=ctx.author.display_avatar))
+                colour=disnake.Colour.red()
+                )
+            )
 
         elif isinstance(error, commands.MissingRole):
             await ctx.message.add_reaction('❌')
@@ -62,7 +69,9 @@ class Events(commands.Cog):
             return await ctx.send(embed=disnake.Embed(
                 title="Missing Roles!", 
                 description="<:alert:1038471201938489424> You do not have the roles required to execute this command!",
-                colour=disnake.Colour.red()).set_footer(text="", icon_url=ctx.author.display_avatar))
+                colour=disnake.Colour.red()
+                )
+            )
 
         elif isinstance(error, commands.MissingPermissions):
             await ctx.message.add_reaction('❌')
@@ -70,7 +79,19 @@ class Events(commands.Cog):
             return await ctx.send(embed=disnake.Embed(
                 title="Missing Permissions!",
                 description=f"<:alert:1038471201938489424> You do not have the permissions to execute this command!",
-                colour=disnake.Colour.red()).set_footer(text="", icon_url=ctx.author.display_avatar))
+                colour=disnake.Colour.red()
+                )
+            )
+
+        elif isinstance(error, commands.CommandOnCooldown):
+            await ctx.message.add_reaction('❌')
+
+            return await ctx.reply(disnake.Embed(
+                title='Cooldown',
+                description=f"<:alert:1038471201938489424> This command is still on cooldown! please try again in **{int(error.retry_after)}** seconds",
+                colour=disnake.Colour.red()
+                )
+            )
 
         elif isinstance(error, commands.NotOwner):
             await ctx.message.add_reaction('❌')
@@ -97,32 +118,42 @@ class Events(commands.Cog):
             return await ctx.response.send_message(embed=disnake.Embed(
                 title="Command not found!",
                 description=f"<:alert:1038471201938489424> The command `{command}` doesn't exist!",
-                colour=disnake.Colour.red()).set_footer(text="", icon_url=ctx.author.display_avatar))
+                colour=disnake.Colour.red()
+                )
+            )
 
         elif isinstance(error, commands.MemberNotFound):
             member = str(error).split()[1][1:-1]
             return await ctx.send(embed=disnake.Embed(
                 title="Member not found!",
                 description=f"<:alert:1038471201938489424> Could not find member: `{member}`",
-                colour=disnake.Colour.red()).set_footer(text="", icon_url=ctx.author.display_avatar))
+                colour=disnake.Colour.red()
+                )
+            )
         elif isinstance(error, commands.MissingRequiredArgument):
             argument = str(error).split()[0]
             return await ctx.response.send_message(embed=disnake.Embed(
                 title="Missing Argument!",
                 description=f"<:alert:1038471201938489424> Please specify `{argument}`\n\n**Proper Usage:**\n```{ctx.prefix}{ctx.command.qualified_name} {ctx.command.signature}```",
-                colour=disnake.Colour.red()).set_footer(text="", icon_url=ctx.author.display_avatar))
+                colour=disnake.Colour.red()
+                )
+            )
 
         elif isinstance(error, commands.MissingRole):
             return await ctx.response.send_message(embed=disnake.Embed(
                 title="Missing Roles!", 
                 description="<:alert:1038471201938489424> You do not have the roles required to execute this command!",
-                colour=disnake.Colour.red()).set_footer(text="", icon_url=ctx.author.display_avatar))
+                colour=disnake.Colour.red()
+                )
+            )
 
         elif isinstance(error, commands.MissingPermissions):
             return await ctx.response.send_message(embed=disnake.Embed(
                 title="Missing Permissions!",
                 description=f"<:alert:1038471201938489424> You do not have the permissions to execute this command!",
-                colour=disnake.Colour.red()).set_footer(text="", icon_url=ctx.author.display_avatar))
+                colour=disnake.Colour.red()
+                )
+            )
 
         elif isinstance(error, commands.NotOwner):
             return await ctx.response.send_message("<:alert:1038471201938489424> You do not own this bot!")
