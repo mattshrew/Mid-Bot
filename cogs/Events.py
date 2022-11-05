@@ -6,7 +6,8 @@ from disnake.ext import commands, tasks
 class Events(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.welcome_channel = self.bot.get_channel(776506655646941217)
+        self.welcome = self.bot.get_channel(776506655646941217)
+        self.logs = self.bot.get_channel(1038469906695458836)
     
     @commands.Cog.listener()
     async def on_member_join(self, member):
@@ -77,8 +78,7 @@ class Events(commands.Cog):
             return await ctx.send("<:alert:1038471201938489424> You do not own this bot!")
 
         else:
-            channel = self.bot.get_channel(1038469906695458836)
-            await channel.send(
+            await self.logs.send(
                 f"{ctx.author.name} caused an error.\n```py\n{''.join(traceback.format_exception(error, value=error, tb=None))}\n```")
             raise error
 
