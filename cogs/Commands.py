@@ -13,6 +13,7 @@ class Commands(commands.Cog):
             title=f"Ping | {round(self.bot.latency * 1000)} ms",
             colour=disnake.Colour.random(),
         )
+        
         return await ctx.response.send_message(embed=embed)
     
     @commands.slash_command(name="tracker", description="Fetches a player's tracker.gg overview.")
@@ -27,7 +28,8 @@ class Commands(commands.Cog):
             return await ctx.response.send_message(embed=disnake.Embed(
                 title="Member not found!",
                 description=f"<:alert:1038471201938489424> Could not find member: `{member}` in the database.\n> Try using `/acclink <RIOT ID>` to connect your account.",
-                colour=disnake.Colour.red()).set_footer(text=f"Executed by {ctx.author.name}", icon_url=ctx.author.display_avatar)
+                colour=disnake.Colour.red()
+                ).set_footer(text=f"Executed by {ctx.author.name}", icon_url=ctx.author.display_avatar)
             )
 
         riot_id = document["ID"]
@@ -55,7 +57,8 @@ class Commands(commands.Cog):
         return await ctx.response.send_message(embed=disnake.Embed(
             title="Success!",
             description=f"The account {ctx.author.mention} has been linked to the RIOT ID `{riot_id}`",
-            colour=disnake.Colour.green()).set_footer(text=f"Executed by {ctx.author.name}", icon_url=ctx.author.display_avatar)
+            colour=disnake.Colour.green()
+            ).set_footer(text=f"Executed by {ctx.author.name}", icon_url=ctx.author.display_avatar)
         )
     
     @commands.slash_command(name="unlink", description="Links your Discord account to your RIOT account.\n*WARNING: Case Sensitive*")
@@ -74,13 +77,15 @@ class Commands(commands.Cog):
             return await ctx.response.send_message(embed=disnake.Embed(
                 title="Success!",
                 description=f"The account {member.mention} has been unlinked.",
-                colour=disnake.Colour.green()).set_footer(text=f"Executed by {ctx.author.name}", icon_url=ctx.author.display_avatar)
+                colour=disnake.Colour.green()
+                ).set_footer(text=f"Executed by {ctx.author.name}", icon_url=ctx.author.display_avatar)
             )
 
         return await ctx.response.send_message(embed=disnake.Embed(
             title="Error!",
             description=f"The account {member.mention} is not linked to a RIOT ID.",
-            colour=disnake.Colour.red()).set_footer(text=f"Executed by {ctx.author.name}", icon_url=ctx.author.display_avatar)
+            colour=disnake.Colour.red()
+            ).set_footer(text=f"Executed by {ctx.author.name}", icon_url=ctx.author.display_avatar)
         )
 
 def setup(bot):

@@ -53,9 +53,7 @@ bot = MidBot(
     command_prefix=['!'],
     case_insensitive=True,
     intents=intents,
-    owner_ids=[
-        672173302373941256
-    ],
+    owner_ids=[672173302373941256],
     strip_after_prefix=True
 )
 
