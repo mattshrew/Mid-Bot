@@ -125,9 +125,11 @@ class Events(commands.Cog):
 
         else:
             channel = self.bot.get_channel(1038469906695458836)
-            await channel.send(
-                f"{ctx.author.name} caused an error.\n```py\n{''.join(traceback.format_exception(error, value=error, tb=None))[:200]}\n```")
-            raise error
+            log = ''.join(traceback.format_exception(error, value=error, tb=None))
+            if len(log) > 2000:
+                log = log[:2000]
+            return await channel.send(
+                f"{ctx.author.name} caused an error.\n```py\n{log}\n```")
 
 
 
