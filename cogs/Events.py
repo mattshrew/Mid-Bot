@@ -6,25 +6,25 @@ from disnake.ext import commands, tasks
 class Events(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.welcome = self.bot.get_channel(776506655646941217)
-        self.logs = self.bot.get_channel(1038469906695458836)
     
     @commands.Cog.listener()
     async def on_member_join(self, member):
+        channel = self.bot.get_channel(776506655646941217)
         welcome = disnake.Embed(
             title=f"Welcome to the server!", 
             description=f"**It's great to have you, {member.mention}!**\n> This is a server with the purpose of testing many bots, commands, and features.\n> Enjoy your stay!", 
             colour=disnake.Colour.teal())
 
-        return await self.welcome_channel.send(embed=welcome)
+        return await channel.send(embed=welcome)
 
     @commands.Cog.listener()
     async def on_member_remove(self, member):
+        channel = self.bot.get_channel(776506655646941217)
         goodbye = disnake.Embed(
             description=f"**{member.mention} has left the server.**", 
             colour=disnake.Colour.red())
             
-        return await self.welcome_channel.send(embed=goodbye)
+        return await channel.send(embed=goodbye)
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
@@ -78,7 +78,8 @@ class Events(commands.Cog):
             return await ctx.send("<:alert:1038471201938489424> You do not own this bot!")
 
         else:
-            await self.logs.send(
+            channel = self.bot.get_channel(1038469906695458836)
+            await channel.send(
                 f"{ctx.author.name} caused an error.\n```py\n{''.join(traceback.format_exception(error, value=error, tb=None))}\n```")
             raise error
     
@@ -123,7 +124,8 @@ class Events(commands.Cog):
             return await ctx.response.send_message("<:alert:1038471201938489424> You do not own this bot!")
 
         else:
-            await self.logs.send(
+            channel = self.bot.get_channel(1038469906695458836)
+            await channel.send(
                 f"{ctx.author.name} caused an error.\n```py\n{''.join(traceback.format_exception(error, value=error, tb=None))}\n```")
             raise error
 
