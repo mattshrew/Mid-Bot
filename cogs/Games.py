@@ -97,7 +97,7 @@ class Games(commands.Cog):
 
         extreme = [sentence for sentence in sentence_list if 120 <= len(sentence)]
 
-        time = 15
+        timer = 15
 
         if difficulty in ["easy", "e"]:
             difficulty = 'Easy'
@@ -110,18 +110,18 @@ class Games(commands.Cog):
         elif difficulty in ["hard", "h"]:
             difficulty = 'Hard'
             sentence = random.choice(hard)
-            time = round((60 / (375 / len(sentence))) / 5) * 5
+            timer = round((60 / (375 / len(sentence))) / 5) * 5
             
         elif difficulty in ['extreme', 'ex', 'ext']:
             difficulty = 'Extreme'
             sentence = random.choice(extreme)
-            time = round((60 / (500 / len(sentence))) / 5) * 5
+            timer = round((60 / (500 / len(sentence))) / 5) * 5
 
         display_sentence = sentence.replace(' ', u"\u2005")
 
         embed = disnake.Embed(
             title="Typing Test",
-            description=f"Type the following sentence correctly within **{time} seconds**!",
+            description=f"Type the following sentence correctly within **{timer} seconds**!",
             color=disnake.Colour.gold()
         ).set_footer(text=f'Executed by {ctx.author} • Difficulty: Easy', icon_url=f'{ctx.author.display_avatar}')
 
@@ -140,12 +140,12 @@ class Games(commands.Cog):
 
 
         try:
-            answer = await self.bot.wait_for('message', timeout=time, check=check)
+            answer = await self.bot.wait_for('message', timeout=timer, check=check)
 
         except asyncio.TimeoutError:
             return await ctx.send(embed=disnake.Embed(
                 title="Typing Test",
-                description=f"**Failed!** You were unable to type the given text within **{time} seconds**.",
+                description=f"**Failed!** You were unable to type the given text within **{timer} seconds**.",
                 color=disnake.Colour.red()
                 ).set_footer(text=f'Executed by {ctx.author} • Difficulty: {difficulty}', icon_url=f'{ctx.author.display_avatar}')
             )
