@@ -19,7 +19,7 @@ class Events(commands.Cog):
         return await self.welcome_channel.send(embed=welcome)
 
     @commands.Cog.listener()
-    async def on_member(self, member):
+    async def on_member_remove(self, member):
         goodbye = disnake.Embed(
             description=f"**{member.mention} has left the server.**", 
             colour=disnake.Colour.red())
@@ -76,6 +76,51 @@ class Events(commands.Cog):
             await ctx.message.add_reaction('❌')
             
             return await ctx.send("<:alert:1038471201938489424> You do not own this bot!")
+
+        else:
+            await self.logs.send(
+                f"{ctx.author.name} caused an error.\n```py\n{''.join(traceback.format_exception(error, value=error, tb=None))}\n```")
+            raise error
+    
+    @commands.Cog.listener()
+    async def on_slash_command_error(self, ctx, error):
+        if isinstance(error, commands.CommandNotFound):
+            command = str(error).split()[1][1:-1]
+            if '!' in command or '?' in command:
+                return
+
+            return await ctx.response.send_message(embed=disnake.Embed(
+                title="Command not found!",
+                description=f"<:alert:1038471201938489424> The command `{command}` doesn't exist!",
+                colour=disnake.Colour.red()).set_footer(text="", icon_url=ctx.author.display_avatar))
+
+        elif isinstance(error, commands.MemberNotFound):
+            member = str(error).split()[1][1:-1]
+            return await ctx.send(embed=disnake.Embed(
+                title="Member not found!",
+                description=f"<:alert:1038471201938489424> Could not find member: `{member}`",
+                colour=disnake.Colour.red()).set_footer(text="", icon_url=ctx.author.display_avatar))
+        elif isinstance(error, commands.MissingRequiredArgument):
+            argument = str(error).split()[0]
+            return await ctx.response.send_message(embed=disnake.Embed(
+                title="Missing Argument!",
+                description=f"<:alert:1038471201938489424> Please specify `{argument}`\n\n**Proper Usage:**\n```{ctx.prefix}{ctx.command.qualified_name} {ctx.command.signature}```",
+                colour=disnake.Colour.red()).set_footer(text="", icon_url=ctx.author.display_avatar))
+
+        elif isinstance(error, commands.MissingRole):
+            return await ctx.response.send_message(embed=disnake.Embed(
+                title="Missing Roles!", 
+                description="<:alert:1038471201938489424> You do not have the roles required to execute this command!",
+                colour=disnake.Colour.red()).set_footer(text="", icon_url=ctx.author.display_avatar))
+
+        elif isinstance(error, commands.MissingPermissions):
+            return await ctx.response.send_message(embed=disnake.Embed(
+                title="Missing Permissions!",
+                description=f"<:alert:1038471201938489424> You do not have the permissions to execute this command!",
+                colour=disnake.Colour.red()).set_footer(text="", icon_url=ctx.author.display_avatar))
+
+        elif isinstance(error, commands.NotOwner):
+            return await ctx.response.send_message("<:alert:1038471201938489424> You do not own this bot!")
 
         else:
             await self.logs.send(
