@@ -58,7 +58,7 @@ class Commands(commands.Cog):
             colour=disnake.Colour.green()).set_footer(text="", icon_url=ctx.author.display_avatar)
         )
     
-    @commands.slash_command(name="acclink", description="Links your Discord account to your RIOT account.\n*WARNING: Case Sensitive*")
+    @commands.slash_command(name="dellink", description="Links your Discord account to your RIOT account.\n*WARNING: Case Sensitive*")
     @commands.is_owner()
     async def dellink(self, ctx, member: disnake.Member = None):
         if member is None:
