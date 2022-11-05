@@ -1,5 +1,6 @@
 import os
 import datetime
+import asyncio
 
 import disnake
 from disnake.ext import commands
@@ -45,6 +46,13 @@ class MidBot(commands.AutoShardedBot):
         self.accounts = bot.riot["Accounts"]
 
         print("Database established succesfully!")
+
+    @commands.command()
+    @commands.is_owner()
+    async def pull(self, ctx):
+        await ctx.send("Pulling from GitHub...")
+        await asyncio.sleep(2)
+        await self.bot.close()
 
 intents = disnake.Intents.all()
 
