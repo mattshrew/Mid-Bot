@@ -86,7 +86,7 @@ class Events(commands.Cog):
         elif isinstance(error, commands.CommandOnCooldown):
             await ctx.message.add_reaction('❌')
 
-            return await ctx.reply(disnake.Embed(
+            return await ctx.send(disnake.Embed(
                 title='Cooldown',
                 description=f"<:alert:1038471201938489424> This command is still on cooldown! please try again in **{int(error.retry_after)}** seconds",
                 colour=disnake.Colour.red()
