@@ -7,6 +7,15 @@ class Commands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
+    @commands.slash_command(name="ping", description="Check the bot's latency!")
+    async def ping(self, ctx):
+        embed = disnake.Embed(
+            title="Ping",
+            description=f"My ping is {round(self.bot.latency * 1000)} ms",
+            colour=disnake.Colour.random(),
+        )
+        return await ctx.repsonse.send_message(embed=embed)
+    
     @commands.slash_command(name="tracker", description="Fetches a player's tracker.gg overview.")
     async def tracker(self, ctx, member: disnake.Member = None, ):
         if member is None:
