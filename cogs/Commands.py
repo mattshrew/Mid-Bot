@@ -26,7 +26,7 @@ class Commands(commands.Cog):
         if document is None:
             return await ctx.response.send_message(embed=disnake.Embed(
                 title="Member not found!",
-                description=f"<:alert:1038471201938489424> Could not find member: `{member}` in the database.\n> Try using `/acclink <RIOT ID>` to connect account.",
+                description=f"<:alert:1038471201938489424> Could not find member: `{member}` in the database.\n> Try using `/acclink <RIOT ID>` to connect your account.",
                 colour=disnake.Colour.red()).set_footer(text=f"Executed by {ctx.author.name}", icon_url=ctx.author.display_avatar)
             )
 
@@ -58,9 +58,9 @@ class Commands(commands.Cog):
             colour=disnake.Colour.green()).set_footer(text=f"Executed by {ctx.author.name}", icon_url=ctx.author.display_avatar)
         )
     
-    @commands.slash_command(name="dellink", description="Links your Discord account to your RIOT account.\n*WARNING: Case Sensitive*")
+    @commands.slash_command(name="unlink", description="Links your Discord account to your RIOT account.\n*WARNING: Case Sensitive*")
     @commands.is_owner()
-    async def dellink(self, ctx, member: disnake.Member = None):
+    async def unlink(self, ctx, member: disnake.Member = None):
         if member is None:
             member = ctx.author
 
