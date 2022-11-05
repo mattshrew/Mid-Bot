@@ -10,8 +10,7 @@ class Commands(commands.Cog):
     @commands.slash_command(name="ping", description="Check the bot's latency!")
     async def ping(self, ctx):
         embed = disnake.Embed(
-            title="Ping",
-            description=f"My ping is {round(self.bot.latency * 1000)} ms",
+            title=f"Ping | {round(self.bot.latency * 1000)} ms",
             colour=disnake.Colour.random(),
         )
         return await ctx.response.send_message(embed=embed)
