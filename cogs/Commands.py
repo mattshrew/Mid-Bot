@@ -16,7 +16,7 @@ class Commands(commands.Cog):
         return await ctx.response.send_message(embed=embed)
     
     @commands.slash_command(name="tracker", description="Fetches a player's tracker.gg overview.")
-    async def tracker(self, ctx, member: disnake.Member = None, ):
+    async def tracker(self, ctx, member: disnake.Member = None):
         if member is None:
             member = ctx.author
         
