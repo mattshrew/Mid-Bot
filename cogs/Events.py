@@ -79,9 +79,62 @@ class Events(commands.Cog):
 
         else:
             channel = self.bot.get_channel(1038469906695458836)
-            await channel.send(
-                f"{ctx.author.name} caused an error.\n```py\n{''.join(traceback.format_exception(error, value=error, tb=None))}\n```")
-            raise error
+            log = ''.join(traceback.format_exception(error, value=error, tb=None))
+            len_log = len(log)
+            if len_log > 1900:
+                log = log[len_log - 1900:]
+            return await channel.send(
+                f"{ctx.author.name} caused an error.\n```py\n{log}\n```")
+        
+        
+    @commands.Cog.listener()
+    async def on_slash_command_error(self, ctx, error):
+        if isinstance(error, commands.CommandNotFound):
+            command = str(error).split()[1][1:-1]
+            if '!' in command or '?' in command:
+                return
+
+            return await ctx.response.send_message(embed=disnake.Embed(
+                title="Command not found!",
+                description=f"<:alert:1038471201938489424> The command `{command}` doesn't exist!",
+                colour=disnake.Colour.red()).set_footer(text="", icon_url=ctx.author.display_avatar))
+
+        elif isinstance(error, commands.MemberNotFound):
+            member = str(error).split()[1][1:-1]
+            return await ctx.send(embed=disnake.Embed(
+                title="Member not found!",
+                description=f"<:alert:1038471201938489424> Could not find member: `{member}`",
+                colour=disnake.Colour.red()).set_footer(text="", icon_url=ctx.author.display_avatar))
+        elif isinstance(error, commands.MissingRequiredArgument):
+            argument = str(error).split()[0]
+            return await ctx.response.send_message(embed=disnake.Embed(
+                title="Missing Argument!",
+                description=f"<:alert:1038471201938489424> Please specify `{argument}`\n\n**Proper Usage:**\n```{ctx.prefix}{ctx.command.qualified_name} {ctx.command.signature}```",
+                colour=disnake.Colour.red()).set_footer(text="", icon_url=ctx.author.display_avatar))
+
+        elif isinstance(error, commands.MissingRole):
+            return await ctx.response.send_message(embed=disnake.Embed(
+                title="Missing Roles!", 
+                description="<:alert:1038471201938489424> You do not have the roles required to execute this command!",
+                colour=disnake.Colour.red()).set_footer(text="", icon_url=ctx.author.display_avatar))
+
+        elif isinstance(error, commands.MissingPermissions):
+            return await ctx.response.send_message(embed=disnake.Embed(
+                title="Missing Permissions!",
+                description=f"<:alert:1038471201938489424> You do not have the permissions to execute this command!",
+                colour=disnake.Colour.red()).set_footer(text="", icon_url=ctx.author.display_avatar))
+
+        elif isinstance(error, commands.NotOwner):
+            return await ctx.response.send_message("<:alert:1038471201938489424> You do not own this bot!")
+
+        else:
+            channel = self.bot.get_channel(1038469906695458836)
+            log = ''.join(traceback.format_exception(error, value=error, tb=None))
+            len_log = len(log)
+            if len_log > 1900:
+                log = log[len_log - 1900:]
+            return await channel.send(
+                f"{ctx.author.name} caused an error.\n```py\n{log}\n```")
 
 
 def setup(bot):
