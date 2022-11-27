@@ -9,7 +9,7 @@ class Games(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
-    @commands.slash_command(name="unscramble", description="Decipher the Anagram!", aliases=["un", "an", "anagram"])
+    @commands.command(aliases=["un", "an", "anagram"])
     @commands.cooldown(1, 10, commands.BucketType.user)
     async def unscramble(self, ctx):
         with open("info/words.txt", "rt") as file:
@@ -29,7 +29,7 @@ class Games(commands.Cog):
             colour=disnake.Colour.random()
         ).set_footer(text=f"Executed by {ctx.author}", icon_url=f"{ctx.author.display_avatar}")
 
-        msg = await ctx.response.send_message(embed=embed)
+        msg = await ctx.send(embed=embed)
 
         embed.description += f"\n\n**The word you must unscramble is:**\n{scrambled}"
 
